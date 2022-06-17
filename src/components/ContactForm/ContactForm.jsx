@@ -3,7 +3,7 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import shortid from 'shortid';
 import { useSelector, useDispatch } from 'react-redux';
-import { addContact, getContacts } from '../../store/contactsSlise';
+import { addContact, getContacts } from '../../redux/contactsSlise';
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
