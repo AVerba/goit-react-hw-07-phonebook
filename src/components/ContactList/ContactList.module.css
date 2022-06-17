@@ -8,7 +8,7 @@ contactsList {
   min-width: 400px;
 }
 .info {
-  min-width: 200px;
+  min-width: 350px;
   display: flex;
   justify-content: space-between;
 }
