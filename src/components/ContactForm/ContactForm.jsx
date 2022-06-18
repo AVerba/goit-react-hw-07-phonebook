@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 import shortid from 'shortid';
-import { useSelector, useDispatch } from 'react-redux';
-import { addContact, getContacts } from '../../redux/contactsSlise';
+import {
+  useGetContactsQuery,
+  useAddContactMutation,
+} from '../../redux/contactsApi';
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
@@ -14,8 +16,8 @@ const nameRegex = /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-я�
 export const ContactForm = () => {
   const [user, setUser] = useState({ name: '', number: '' });
   const [isDisabled, setIsDisabled] = useState(true);
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
+  const { data: contacts, isLoading } = useGetContactsQuery();
+  const [addContact] = useAddContactMutation();
 
   const resetForm = () => {
     setUser({ name: '', number: '' });
@@ -27,9 +29,10 @@ export const ContactForm = () => {
     const contact = {
       id: shortid.generate(),
       name: user.name,
-      number: user.number,
+      phone: user.number,
     };
-    dispatch(addContact(contact));
+    addContact(contact);
+
     resetForm();
   };
 
