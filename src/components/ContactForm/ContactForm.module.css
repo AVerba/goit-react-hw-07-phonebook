@@ -29,6 +29,7 @@ input::placeholder {
 }
 
 .submitButton {
+  margin-top: 5px;
   display: flex;
   align-items: center;
   padding: 5px;
@@ -53,5 +54,6 @@ input::placeholder {
 
 .phoneInputCountry input {
   margin-top: 18px;
+
   align-items: center;
 }
