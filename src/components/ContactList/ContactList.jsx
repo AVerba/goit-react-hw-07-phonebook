@@ -1,21 +1,22 @@
 import styles from './ContactList.module.css';
-
+import { useSelector } from 'react-redux';
 import {
   useGetContactsQuery,
   useDeleteContactMutation,
 } from '../../redux/contactsApi';
+import { getFilter } from '../../redux/contactsSlise';
 
 export const ContactList = () => {
-  const filterValue = '';
   const { data: contacts, isLoading } = useGetContactsQuery();
   const [deleteContact] = useDeleteContactMutation();
+  const { filter } = useSelector(getFilter);
 
   const filteredContacts = () => {
     return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterValue.toLowerCase())
+      contact.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
-  let renderedData = filterValue === '' ? contacts : filteredContacts();
+  let renderedData = filter === '' ? contacts : filteredContacts();
   const renderList = (
     <ul className={styles.contactsList}>
       {contacts &&
