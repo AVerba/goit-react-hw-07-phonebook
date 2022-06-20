@@ -5,10 +5,11 @@ import {
   useDeleteContactMutation,
 } from '../../redux/contactsApi';
 import { getFilter } from '../../redux/contactsSlise';
+import React from 'react';
 
 export const ContactList = () => {
   const { data: contacts, isLoading } = useGetContactsQuery();
-  const [deleteContact] = useDeleteContactMutation();
+  const [deleteContact, { isLoading: isUpdating }] = useDeleteContactMutation();
   const { filter } = useSelector(getFilter);
 
   const filteredContacts = () => {
@@ -32,7 +33,7 @@ export const ContactList = () => {
                 deleteContact(event.currentTarget.parentNode.id)
               }
             >
-              Delete
+              {isUpdating ? <>Deleting ...</> : <>Delete contact</>}
             </button>
           </li>
         ))}
