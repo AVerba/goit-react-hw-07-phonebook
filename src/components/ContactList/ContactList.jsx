@@ -11,6 +11,13 @@ export const ContactList = () => {
   const { data: contacts, isLoading } = useGetContactsQuery();
   const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
   const { filter } = useSelector(getFilter);
+  const deleteItem = event => {
+    deleteContact(event.currentTarget.parentNode.id);
+
+    if (!isDeleting) {
+      event.currentTarget.innerHTML = 'Deleting ...';
+    }
+  };
 
   const filteredContacts = () => {
     return contacts.filter(contact =>
@@ -29,14 +36,7 @@ export const ContactList = () => {
             </div>
             <button
               className={styles.buttons}
-              onClick={event => {
-                deleteContact(event.currentTarget.parentNode.id);
-                console.log(event.currentTarget.innerHTML);
-                console.log(isDeleting);
-                if (!isDeleting) {
-                  event.currentTarget.innerHTML = 'Deleting ...';
-                }
-              }}
+              onClick={event => deleteItem(event)}
             >
               Delete contact
             </button>
@@ -45,6 +45,11 @@ export const ContactList = () => {
     </ul>
   );
 
-  // return contacts.length !== 0 ? renderList : "You have no contacts";
-  return isLoading ? <div>loading...</div> : renderList;
+  return isLoading ? (
+    <div>loading...</div>
+  ) : contacts.length !== 0 ? (
+    renderList
+  ) : (
+    'You have no contacts'
+  );
 };
