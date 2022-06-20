@@ -28,11 +28,16 @@ export const ContactForm = () => {
 
   const formSubmitHandler = e => {
     e.preventDefault();
+    console.log((e.currentTarget.id = 'btnSubmit'));
+
     const contact = {
       id: shortid.generate(),
       name: user.name,
       phone: user.number,
     };
+    if (successfullyAdded) {
+      Notify.success(`Contact ${user.name} added successfully`);
+    }
     addContact(contact);
 
     resetForm();
@@ -106,14 +111,12 @@ export const ContactForm = () => {
       </label>
 
       <button
+        id="btnSubmit"
         className={styles.submitButton}
         type="submit"
         disabled={isDisabled}
       >
         {isUpdating ? <>Adding...</> : <>Add contact</>}
-        {successfullyAdded
-          ? Notify.success(`Contact ${user.name} added successfully`)
-          : null}
       </button>
     </form>
   );
