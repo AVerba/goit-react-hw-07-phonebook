@@ -10,7 +10,7 @@ import {
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import styles from './ContactForm.module.css';
-import { success } from 'notiflix';
+import { failure, success } from 'notiflix';
 
 const nameRegex = /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
 
@@ -18,7 +18,7 @@ export const ContactForm = () => {
   const [user, setUser] = useState({ name: '', number: '' });
   const [isDisabled, setIsDisabled] = useState(true);
   const { data: contacts, isLoading } = useGetContactsQuery();
-  const [addContact, { isLoading: isUpdating, isSuccess }] =
+  const [addContact, { isLoading: isUpdating, isSuccess: successfullyAdded }] =
     useAddContactMutation();
 
   const resetForm = () => {
@@ -74,9 +74,6 @@ export const ContactForm = () => {
       );
     }
   };
-  if (isSuccess) {
-    Notify.success(`Contact ${user.name} added successfully`);
-  }
 
   return (
     <form onSubmit={formSubmitHandler} className={styles.form}>
@@ -114,6 +111,9 @@ export const ContactForm = () => {
         disabled={isDisabled}
       >
         {isUpdating ? <>Adding...</> : <>Add contact</>}
+        {successfullyAdded
+          ? Notify.success(`Contact ${user.name} added successfully`)
+          : null}
       </button>
     </form>
   );

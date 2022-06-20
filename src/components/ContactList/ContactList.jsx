@@ -9,7 +9,7 @@ import React from 'react';
 
 export const ContactList = () => {
   const { data: contacts, isLoading } = useGetContactsQuery();
-  const [deleteContact, { isLoading: isUpdating }] = useDeleteContactMutation();
+  const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
   const { filter } = useSelector(getFilter);
 
   const filteredContacts = () => {
@@ -29,11 +29,16 @@ export const ContactList = () => {
             </div>
             <button
               className={styles.buttons}
-              onClick={event =>
-                deleteContact(event.currentTarget.parentNode.id)
-              }
+              onClick={event => {
+                deleteContact(event.currentTarget.parentNode.id);
+                console.log(event.currentTarget.innerHTML);
+                console.log(isDeleting);
+                if (!isDeleting) {
+                  event.currentTarget.innerHTML = 'Deleting ...';
+                }
+              }}
             >
-              {isUpdating ? <>Deleting ...</> : <>Delete contact</>}
+              Delete contact
             </button>
           </li>
         ))}
