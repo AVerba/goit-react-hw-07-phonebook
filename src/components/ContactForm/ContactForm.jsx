@@ -17,7 +17,7 @@ export const ContactForm = () => {
   const [user, setUser] = useState({ name: '', number: '' });
   const [isDisabled, setIsDisabled] = useState(true);
   const { data: contacts, isLoading } = useGetContactsQuery();
-  const [addContact] = useAddContactMutation();
+  const [addContact, { isLoading: isUpdating }] = useAddContactMutation();
 
   const resetForm = () => {
     setUser({ name: '', number: '' });
@@ -107,7 +107,7 @@ export const ContactForm = () => {
         type="submit"
         disabled={isDisabled}
       >
-        add contact
+        {isUpdating ? <>Adding...</> : <>Add contact</>}
       </button>
     </form>
   );
